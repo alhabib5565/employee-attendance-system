@@ -1,0 +1,44 @@
+[
+  {
+    "providerImage": "provider1.jpg",
+    "providerName": "Gordo Novak",
+    "providerEmail": "gordo@gmail.com",
+    "designation": "Founder & CEO",
+    "review": "Working with Gordo Novak was an absolute pleasure. Their platform streamlined our donation process, making it easy for our supporters to contribute. The team's dedication to our cause was evident in every aspect of their service. Highly recommend!"
+  },
+  {
+    "providerImage": "provider2.jpg",
+    "providerName": "Reid E Butt",
+    "providerEmail": "reid@gmail.com",
+    "designation": "Co-Founder & CTO",
+    "review": "Reid E Butt exceeded our expectations. Their expertise in creating user-friendly interfaces and secure donation portals made a significant impact on our fundraising efforts. We appreciated their attention to detail and prompt support."
+  },
+  {
+    "providerImage": "provider3.jpg",
+    "providerName": "Parker Jimenez",
+    "providerEmail": "parker@gmail.com",
+    "designation": "Director of Operations",
+    "review": "We are incredibly grateful for the support of Parker Jimenez. Their innovative approach to online fundraising helped us reach our donation goals faster than we anticipated. The team was responsive, knowledgeable, and genuinely invested in our mission."
+  },
+  {
+    "providerImage": "provider4.jpg",
+    "providerName": "Heruli Nez",
+    "providerEmail": "heruli@gmail.com",
+    "designation": "Head of Development",
+    "review": "Heruli Nez made a significant impact on our fundraising efforts. Their customizable donation platform allowed us to tailor our campaigns to specific donor segments, resulting in increased engagement and contributions. The team's commitment to our success was evident throughout our partnership."
+  },
+  {
+    "providerImage": "provider5.jpg",
+    "providerName": "EmpowerDonation",
+    "providerEmail": "em@gmail.com",
+    "designation": "Co-Founder & CMO",
+    "review": "EmpowerDonations provided us with the tools and support we needed to elevate our online giving strategy. Their intuitive platform empowered our supporters to make a difference seamlessly. We appreciated their collaborative approach and proactive suggestions for optimizing our donation process."
+  },
+  {
+    "providerImage": "provider6.jpg",
+    "providerName": "Sylvia H Green",
+    "providerEmail": "sylvia@gmail.com",
+    "designation": "Director of Marketing",
+    "review": "We couldn't be happier with our decision to partner with Sylvia H Green. Their expertise in leveraging technology for social good helped us amplify our message and expand our donor base. The team's dedication to driving positive change through innovative solutions is truly commendable."
+  }
+]

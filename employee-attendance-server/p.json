@@ -1,0 +1,154 @@
+[
+  {
+    "productName": "Anti-Colic Baby Bottle",
+    "mainCategory": "mother-and-baby",
+    "category": "feeding",
+    "subCategory": "bottle-feeding",
+    "description": "An anti-colic baby bottle to reduce air intake and colic symptoms.",
+    "price": 12.99,
+    "totalQuantity": 100,
+    "availableQuantity": 90,
+    "thumbnail": "http://example.com/images/anti-colic-baby-bottle.jpg",
+    "brand": "BabyCare",
+    "type": "Bottle",
+    "discount_percentage": 10,
+    "images": [
+      "http://example.com/images/anti-colic-baby-bottle1.jpg",
+      "http://example.com/images/anti-colic-baby-bottle2.jpg"
+    ],
+    "variants": {
+      "color": "60f8f592bcf86cd799439016"
+    },
+    "flash_sale": {
+      "sale_start": "2024-07-01T00:00:00Z",
+      "sale_end": "2024-07-10T23:59:59Z"
+    },
+    "weight": "150g",
+    "features": ["BPA Free", "Anti-Colic", "Easy to Clean"],
+    "rating": 4.5,
+    "status": "Published",
+    "metaTitle": "Anti-Colic Baby Bottle",
+    "metaDescription": "Reduce colic symptoms with this anti-colic baby bottle."
+  },
+  {
+    "productName": "Silicone Baby Feeding Spoon",
+    "mainCategory": "mother-and-baby",
+    "category": "feeding",
+    "subCategory": "bottle-feeding",
+    "description": "A soft silicone baby feeding spoon for easy feeding.",
+    "price": 5.99,
+    "totalQuantity": 200,
+    "availableQuantity": 180,
+    "thumbnail": "http://example.com/images/baby-feeding-spoon.jpg",
+    "brand": "BabyCare",
+    "type": "Feeding Spoon",
+    "discount_percentage": 5,
+    "images": ["http://example.com/images/baby-feeding-spoon1.jpg"],
+    "variants": {
+      "color": "60f8f592bcf86cd799439017"
+    },
+    "flash_sale": {
+      "sale_start": "2024-07-05T00:00:00Z",
+      "sale_end": "2024-07-15T23:59:59Z"
+    },
+    "weight": "50g",
+    "features": ["Soft Silicone", "Easy to Clean", "Safe for Babies"],
+    "rating": 4.7,
+    "status": "Published",
+    "metaTitle": "Silicone Baby Feeding Spoon",
+    "metaDescription": "Make feeding easy with this soft silicone baby feeding spoon."
+  },
+  {
+    "productName": "Baby Bottle Warmer",
+    "mainCategory": "mother-and-baby",
+    "category": "feeding",
+    "subCategory": "bottle-feeding",
+    "description": "A convenient baby bottle warmer to heat milk quickly.",
+    "price": 29.99,
+    "totalQuantity": 50,
+    "availableQuantity": 45,
+    "thumbnail": "http://example.com/images/baby-bottle-warmer.jpg",
+    "brand": "BabyCare",
+    "type": "Bottle Warmer",
+    "discount_percentage": 10,
+    "images": [
+      "http://example.com/images/baby-bottle-warmer1.jpg",
+      "http://example.com/images/baby-bottle-warmer2.jpg"
+    ],
+    "variants": {
+      "color": "60f8f592bcf86cd799439018"
+    },
+    "flash_sale": {
+      "sale_start": "2024-08-01T00:00:00Z",
+      "sale_end": "2024-08-10T23:59:59Z"
+    },
+    "weight": "300g",
+    "features": ["Fast Heating", "Portable", "Easy to Use"],
+    "rating": 4.8,
+    "status": "Published",
+    "metaTitle": "Baby Bottle Warmer",
+    "metaDescription": "Heat your baby's milk quickly with this convenient bottle warmer."
+  },
+  {
+    "productName": "Newborn Feeding Set",
+    "mainCategory": "mother-and-baby",
+    "category": "feeding",
+    "subCategory": "bottle-feeding",
+    "description": "A complete newborn feeding set with bottles, nipples, and brushes.",
+    "price": 49.99,
+    "totalQuantity": 30,
+    "availableQuantity": 28,
+    "thumbnail": "http://example.com/images/newborn-feeding-set.jpg",
+    "brand": "BabyCare",
+    "type": "Feeding Set",
+    "discount_percentage": 15,
+    "images": [
+      "http://example.com/images/newborn-feeding-set1.jpg",
+      "http://example.com/images/newborn-feeding-set2.jpg"
+    ],
+    "variants": {
+      "color": "60f8f592bcf86cd799439019"
+    },
+    "flash_sale": {
+      "sale_start": "2024-09-01T00:00:00Z",
+      "sale_end": "2024-09-10T23:59:59Z"
+    },
+    "weight": "1kg",
+    "features": ["Complete Set", "BPA Free", "Easy to Clean"],
+    "rating": 4.6,
+    "status": "Published",
+    "metaTitle": "Newborn Feeding Set",
+    "metaDescription": "Get everything you need for feeding your newborn with this complete set."
+  },
+  {
+    "productName": "Insulated Bottle Bag",
+    "mainCategory": "mother-and-baby",
+    "category": "feeding",
+    "subCategory": "bottle-feeding",
+    "description": "An insulated bottle bag to keep your baby's milk warm or cool.",
+    "price": 19.99,
+    "totalQuantity": 150,
+    "availableQuantity": 140,
+    "thumbnail": "http://example.com/images/insulated-bottle-bag.jpg",
+    "brand": "BabyCare",
+    "type": "Bottle Bag",
+    "discount_percentage": 10,
+    "images": [
+      "http://example.com/images/insulated-bottle-bag1.jpg",
+      "http://example.com/images/insulated-bottle-bag2.jpg"
+    ],
+    "variants": {
+      "color": "60f8f592bcf86cd799439020"
+    },
+    "flash_sale": {
+      "sale_start": "2024-10-01T00:00:00Z",
+      "sale_end": "2024-10-10T23:59:59Z"
+    },
+    "weight": "200g",
+    "features": ["Insulated", "Portable", "Easy to Carry"],
+    "rating": 4.4,
+    "status": "Published",
+    "metaTitle": "Insulated Bottle Bag",
+    "metaDescription": "Keep your baby's milk at the perfect temperature with this insulated bottle bag."
+  }
+]
