@@ -1,9 +1,11 @@
-import EmployeeHome from "../../employee/employeeHome/EmployeeHome";
+import CheckInCheckOutBox from "@/components/shared/CheckInCheckOutBox";
+import TodaysAttendance from "./TodaysAttendance";
 
 const AdminHome = () => {
   return (
-    <div>
-      <EmployeeHome />
+    <div className="space-y-6">
+      <CheckInCheckOutBox />
+      <TodaysAttendance />
     </div>
   );
 };

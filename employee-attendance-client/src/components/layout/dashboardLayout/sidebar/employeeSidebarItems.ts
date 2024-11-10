@@ -1,5 +1,5 @@
 import { TUserPath } from "@/type/paths.type";
-import { Edit, LayoutDashboard } from "lucide-react";
+import { Edit, HandHelping, LayoutDashboard } from "lucide-react";
 
 export const employeeSidebarItems: TUserPath[] = [
   {
@@ -12,5 +12,23 @@ export const employeeSidebarItems: TUserPath[] = [
     label: "Attendance",
     href: "attendance",
     icon: Edit,
+  },
+
+  {
+    label: "Leave",
+    icon: HandHelping,
+    children: [
+      {
+        label: "Request For Leave",
+        href: "leave-request",
+        icon: HandHelping,
+      },
+
+      {
+        label: "All Leave Request",
+        href: "all-leave-request",
+        icon: HandHelping,
+      },
+    ],
   },
 ];

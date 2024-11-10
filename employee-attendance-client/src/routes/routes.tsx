@@ -11,6 +11,9 @@ import EmployeeHome from "@/components/pages/dashboard/employee/employeeHome/Emp
 import Attendance from "@/components/pages/dashboard/employee/attendance/Attendance";
 import MonthlyAttendanceSheet from "@/components/pages/dashboard/admin/attendance/MonthlyAttendanceSheet";
 import AdminHome from "@/components/pages/dashboard/admin/adminHome/AdminHome";
+import TodaysAttendance from "@/components/pages/dashboard/admin/adminHome/TodaysAttendance";
+import LeaveRequestForm from "@/components/pages/dashboard/employee/employeeLeave/LeaveRequestForm";
+import AllLeaveRequestOnAnEmployee from "@/components/pages/dashboard/employee/employeeLeave/AllLeaveRequestOnAnEmployee";
 
 export const router = createBrowserRouter([
   {
@@ -43,7 +46,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "attendance-management/todays-attendance",
-        element: <h2>todays attendance</h2>,
+        element: <TodaysAttendance />,
       },
       {
         path: "attendance-management/attendance-sheet",
@@ -66,6 +69,14 @@ export const router = createBrowserRouter([
       {
         path: "attendance",
         element: <Attendance />,
+      },
+      {
+        path: "leave-request",
+        element: <LeaveRequestForm />,
+      },
+      {
+        path: "all-leave-request",
+        element: <AllLeaveRequestOnAnEmployee />,
       },
     ],
   },

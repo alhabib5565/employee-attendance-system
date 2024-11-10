@@ -30,7 +30,7 @@ const getSingleEmployee = catchAsync(async (req: Request, res: Response) => {
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
-    message: `Employee with ID ${req.params.id} updated successfully.`,
+    message: `Employee with ID ${req.params.id} get successfully.`,
     data: result,
   });
 });
@@ -40,7 +40,7 @@ const updateEmployee = catchAsync(async (req: Request, res: Response) => {
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
-    message: '',
+    message: `Employee with ID ${req.params.id} updated successfully`,
     data: result,
   });
 });

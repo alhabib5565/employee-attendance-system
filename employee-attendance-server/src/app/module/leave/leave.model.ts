@@ -5,6 +5,10 @@ const leaveSchema = new Schema<TLeave>({
   employeeId: {
     type: Schema.Types.ObjectId,
     ref: 'Employee',
+    required: true,
+  },
+  description: {
+    type: String,
   },
   leaveType: {
     type: String,

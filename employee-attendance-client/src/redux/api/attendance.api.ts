@@ -34,21 +34,31 @@ const attendanceApi = baseApi.injectEndpoints({
       }),
       providesTags: [tags.Attendances],
     }),
+
     checkEmployeeCheckInToday: builder.query({
       query: ({ id, date }) => ({
         url: `/attendances/${id}/${date}`,
       }),
       providesTags: [tags.Attendances],
     }),
+
     monthlyAttendanceOfAEmployee: builder.query({
       query: ({ id, date }) => ({
         url: `/attendances/montlye-attendance/${id}/${date}`,
       }),
       providesTags: [tags.Attendances],
     }),
+
     monthlyAttendanceSheet: builder.query({
       query: (query) => ({
         url: `attendances/montlye/attendance/sheet?${query}`,
+      }),
+      providesTags: [tags.Attendances],
+    }),
+
+    getTodaysAttendance: builder.query({
+      query: () => ({
+        url: `attendances/todays/attendance/of/all/employees`,
       }),
       providesTags: [tags.Attendances],
     }),
@@ -63,4 +73,5 @@ export const {
   useCheckEmployeeCheckInTodayQuery,
   useMonthlyAttendanceOfAEmployeeQuery,
   useMonthlyAttendanceSheetQuery,
+  useGetTodaysAttendanceQuery,
 } = attendanceApi;
