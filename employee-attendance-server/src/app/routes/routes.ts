@@ -3,6 +3,7 @@ import { employee_router } from '../module/employee/employee.route';
 import { authRouter } from '../module/auth/auth.route';
 import { attendanceRouter } from '../module/attendance/attendance.route';
 import { leaveRouter } from '../module/leave/leave.route';
+import { taskRouter } from '../module/task/task.route';
 
 const router = express.Router();
 
@@ -22,6 +23,10 @@ const appRoutes = [
   {
     path: '/leaves',
     routes: leaveRouter,
+  },
+  {
+    path: '/tasks',
+    routes: taskRouter,
   },
 ];
 

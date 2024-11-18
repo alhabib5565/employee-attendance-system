@@ -56,10 +56,12 @@ const TodaysAttendance = () => {
                 <>
                   {data?.data?.map(
                     (attendance: TTodaysAttendance, index: number) => {
+                      console.log(attendance);
                       const checkInTime =
                         attendance?.attendanceRecords?.checkInTime;
                       const checkOutTime =
                         attendance?.attendanceRecords?.checkOutTime;
+                      const breaks = attendance.attendanceRecords?.breaks;
                       return (
                         <TableRow key={index}>
                           <TableCell>{attendance.name}</TableCell>
@@ -68,7 +70,11 @@ const TodaysAttendance = () => {
                           <TableCell>{checkOutTime}</TableCell>
                           <TableCell>
                             {checkInTime && checkOutTime
-                              ? calculateWorkHours(checkInTime, checkOutTime)
+                              ? calculateWorkHours(
+                                  checkInTime,
+                                  checkOutTime,
+                                  breaks
+                                )
                               : "00:00"}
                           </TableCell>
                           <TableCell>

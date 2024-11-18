@@ -13,6 +13,7 @@ import {
 import { useMonthlyAttendanceOfAEmployeeQuery } from "@/redux/api/attendance.api";
 import { useAppSelector } from "@/redux/hooks";
 import { calculateWorkHours } from "@/utils/calculateWorkHours";
+import { TBreak } from "./type.attendance";
 
 export type TAttendance = {
   isHoliday?: boolean;
@@ -21,6 +22,7 @@ export type TAttendance = {
   checkInDate?: string;
   checkInTime?: string;
   checkOutTime?: string;
+  breaks: TBreak[] | [];
 };
 
 const Attendance = () => {
@@ -78,7 +80,8 @@ const Attendance = () => {
                         {attendance.checkInTime && attendance.checkOutTime
                           ? calculateWorkHours(
                               attendance.checkInTime,
-                              attendance.checkOutTime
+                              attendance.checkOutTime,
+                              attendance.breaks
                             )
                           : "00:00"}
                       </TableCell>

@@ -62,6 +62,24 @@ const attendanceApi = baseApi.injectEndpoints({
       }),
       providesTags: [tags.Attendances],
     }),
+
+    startBreak: builder.mutation({
+      query: ({ data, id }) => ({
+        url: `/attendances/start-break/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: [tags.Attendances],
+    }),
+
+    endBreak: builder.mutation({
+      query: ({ data, id }) => ({
+        url: `/attendances/end-break/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: [tags.Attendances],
+    }),
   }),
 });
 
@@ -74,4 +92,6 @@ export const {
   useMonthlyAttendanceOfAEmployeeQuery,
   useMonthlyAttendanceSheetQuery,
   useGetTodaysAttendanceQuery,
+  useStartBreakMutation,
+  useEndBreakMutation,
 } = attendanceApi;

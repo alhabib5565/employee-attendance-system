@@ -6,9 +6,14 @@ import { toast } from "sonner";
 type TCheckOutBoxProps = {
   attendance_id: string;
   checkOutTime?: string | undefined;
+  checkInTime: string | undefined;
 };
 
-const CheckOutBox = ({ attendance_id, checkOutTime }: TCheckOutBoxProps) => {
+const CheckOutBox = ({
+  attendance_id,
+  checkOutTime,
+  checkInTime,
+}: TCheckOutBoxProps) => {
   const [checkOut] = useEditAttendancesMutation();
 
   const handleCheckOut = async () => {
@@ -42,11 +47,11 @@ const CheckOutBox = ({ attendance_id, checkOutTime }: TCheckOutBoxProps) => {
 
   return (
     <button
-      disabled={!!checkOutTime}
+      disabled={!!checkOutTime || !checkInTime}
       onClick={handleCheckOut}
       className={cn(
         "h-[150px] w-[150px] rounded-md bg-[#FDEDD3] p-4 text-black space-y-3 text-left",
-        { "cursor-not-allowed bg-opacity-80": checkOutTime }
+        { "cursor-not-allowed bg-opacity-70": checkOutTime || !checkInTime }
       )}
     >
       <LogOut className="size-10 " />

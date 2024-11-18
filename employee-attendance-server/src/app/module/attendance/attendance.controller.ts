@@ -4,8 +4,11 @@ import { sendResponse } from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 import { AttendanceService } from './attendance.service';
 
-const createAttendance = catchAsync(async (req: Request, res: Response) => {
-  const result = await AttendanceService.createAttendance(req.body);
+const checkIn = catchAsync(async (req: Request, res: Response) => {
+  const result = await AttendanceService.checkIn(
+    req.body,
+    req.employee.employee_id,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -106,8 +109,18 @@ const updateAttendance = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const checkOut = catchAsync(async (req: Request, res: Response) => {
+  const result = await AttendanceService.checkOut(req.params.id, req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: 'Check out successfully',
+    data: result,
+  });
+});
+
 export const AttendanceController = {
-  createAttendance,
+  checkIn,
   getAllAttendance,
   getSingleAttendance,
   updateAttendance,
@@ -115,4 +128,5 @@ export const AttendanceController = {
   getMonthlyAttendanceOfAEmployee,
   getMonthlyAttendanceSheet,
   todaysAttendance,
+  checkOut,
 };

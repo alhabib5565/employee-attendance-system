@@ -8,7 +8,13 @@ const router = express.Router();
 router.post(
   '/check-in',
   auth(USER_ROLE.Admin, USER_ROLE.Employee),
-  AttendanceController.createAttendance,
+  AttendanceController.checkIn,
+);
+
+router.patch(
+  '/check-out/:id',
+  auth(USER_ROLE.Admin, USER_ROLE.Employee),
+  AttendanceController.checkOut,
 );
 
 router.get(

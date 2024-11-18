@@ -1,7 +1,5 @@
 import PageHeader from "@/components/shared/PageHeader";
 import { useGetAllLeaveRequestQuery } from "@/redux/api/leave.api";
-import { useAppSelector } from "@/redux/hooks";
-import { TLeave } from "./type.leaveRequest";
 import { TEmployee } from "@/type/user.tpe";
 import Loading from "@/components/shared/Loading";
 
@@ -22,13 +20,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import MyPagination from "@/components/myUi/MyPagination";
+import { TLeave } from "../../employee/employeeLeave/type.leaveRequest";
+import ChangeLeaveStatusSelect from "./ChangeLeaveStatusSelect";
 
-const AllLeaveRequestOnAnEmployee = () => {
-  const employeeId = useAppSelector((state) => state.auth.user?.employee_id);
-
-  const { data, isLoading } = useGetAllLeaveRequestQuery({
-    employeeId: employeeId,
-  });
+const AllLeaveRequest = () => {
+  const { data, isLoading } = useGetAllLeaveRequestQuery({});
 
   if (isLoading) {
     return <Loading />;
@@ -79,10 +75,7 @@ const AllLeaveRequestOnAnEmployee = () => {
                       new Date(leave.startDate).getDate()}
                   </TableCell>
                   <TableCell>
-                    <span className="px-3 rounded-[12px] py-0.5 bg-secondary text-[#667085] text-sm font-medium flex items-center gap-2 w-fit">
-                      <span className="size-0.5 p-0.5 rounded-full bg-[#667085]"></span>
-                      {leave.status}
-                    </span>
+                    <ChangeLeaveStatusSelect leave={leave} />
                   </TableCell>
                   <TableCell>{leave.leaveType}</TableCell>
                 </TableRow>
@@ -97,5 +90,4 @@ const AllLeaveRequestOnAnEmployee = () => {
     </div>
   );
 };
-
-export default AllLeaveRequestOnAnEmployee;
+export default AllLeaveRequest;

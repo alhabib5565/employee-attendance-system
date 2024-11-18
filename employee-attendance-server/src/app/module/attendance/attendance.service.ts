@@ -1,27 +1,102 @@
-import httpStatus from 'http-status';
+import httpStatus, { BAD_REQUEST } from 'http-status';
 import { QueryBuilder } from '../../builder/QueryBuilder';
 import AppError from '../../error/AppError';
 import { TAttendance } from './attendance.interface';
 import { Attendance } from './attendance.model';
 import dayjs from 'dayjs';
 import { Employee } from '../employee/employee.model';
+import { Types } from 'mongoose';
 
-const createAttendance = async (payload: TAttendance) => {
+const checkIn = async (
+  payload: { checkInDate: Date; checkInTime: Date },
+  employee_id: Types.ObjectId,
+) => {
   const startOfDay = dayjs(payload.checkInDate).startOf('day').toDate();
   const endOfDay = dayjs(payload.checkInDate).endOf('day').toDate();
-  const isAlreadyCheckIn = await Attendance.findOne({
-    employeeId: payload.employeeId,
+
+  const existingAttendance = await Attendance.findOne({
+    employeeId: employee_id,
     checkInDate: { $gte: startOfDay, $lte: endOfDay },
   });
 
-  if (isAlreadyCheckIn) {
+  let result;
+
+  if (existingAttendance) {
+    const activeSession = existingAttendance.dailyWorkSessions.find(
+      (dailyWorkSession) => !dailyWorkSession?.checkOutTime,
+    );
+    if (activeSession) {
+      throw new AppError(
+        BAD_REQUEST,
+        'You are already in a session. Please check out first.',
+      );
+    }
+
+    result = await Attendance.findOneAndUpdate(
+      { _id: existingAttendance._id },
+      {
+        $addToSet: {
+          dailyWorkSessions: { checkInTime: payload.checkInTime },
+        },
+      },
+      {
+        new: true,
+      },
+    );
+  } else {
+    const data = {
+      employeeId: employee_id,
+      dailyWorkSessions: [
+        {
+          checkInTime: payload.checkInTime,
+        },
+      ],
+      checkInDate: payload.checkInDate,
+    };
+
+    result = await Attendance.create(data);
+  }
+
+  return result;
+};
+
+const checkOut = async (_id: string, payload: { checkOutTime: Date }) => {
+  const attendance = await Attendance.findOne({ _id });
+  if (!attendance) {
     throw new AppError(
-      httpStatus.BAD_REQUEST,
-      'You are already checked in today',
+      httpStatus.NOT_FOUND,
+      'No attendance record found for today!!',
     );
   }
 
-  const result = await Attendance.create(payload);
+  const activeSessionIndex = attendance.dailyWorkSessions.find(
+    (workSession) => !workSession?.checkOutTime,
+  );
+  if (!activeSessionIndex) {
+    throw new AppError(
+      BAD_REQUEST,
+      'No active session found to check out. Please check in first.!',
+    );
+  }
+
+  const dailyWorkSessions = attendance.dailyWorkSessions.map((workSession) => {
+    if (!workSession?.checkOutTime) {
+      return {
+        checkInTime: workSession.checkInTime,
+        checkOutTime: payload.checkOutTime,
+      };
+    } else {
+      return workSession;
+    }
+  });
+
+  const result = await Attendance.findOneAndUpdate(
+    { _id },
+    { dailyWorkSessions },
+    {
+      new: true,
+    },
+  );
   return result;
 };
 
@@ -101,7 +176,8 @@ const getMonthlyAttendanceOfAEmployee = async (
     if (isFriday) {
       attendanceData.unshift({
         isHoliday: true,
-        dayOffMonth: dayOfMonth, // Set dayOfMonth to actual day
+        dayOffMonth: dayOfMonth,
+        checkInDate: formattedDate,
       });
     } else {
       const attendanceOfADay = monthlyAttendanceRecords.find((data) => {
@@ -117,7 +193,8 @@ const getMonthlyAttendanceOfAEmployee = async (
         attendanceData.unshift({
           isHoliday: isFriday,
           isAbsent: true,
-          dayOffMonth: dayOfMonth, // Set dayOfMonth to actual day
+          dayOffMonth: dayOfMonth,
+          checkInDate: formattedDate,
         });
       }
     }
@@ -240,7 +317,7 @@ const todaysAttendance = async () => {
   const startOfToday = dayjs(today).startOf('day').toDate();
   const endOfToday = dayjs(today).endOf('day').toDate();
 
-  const a = await Employee.aggregate([
+  const result = await Employee.aggregate([
     {
       $lookup: {
         as: 'attendanceRecords',
@@ -272,16 +349,76 @@ const todaysAttendance = async () => {
     },
   ]);
 
-  return a;
+  return result;
 };
 
 export const AttendanceService = {
+  checkIn,
+  checkOut,
   checkEmployeeCheckInToday,
   getMonthlyAttendanceSheet,
   getMonthlyAttendanceOfAEmployee,
-  createAttendance,
   getAllAttendance,
   getSingleAttendance,
   updateAttendance,
   todaysAttendance,
 };
+
+/**
+ * const startBreak = async (_id: string, payload: { startTime: string }) => {
+  const attendance = await Attendance.findOne({ _id });
+  if (!attendance) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Attendance not found!!');
+  }
+
+  const isAlreadyInABreak = attendance.breaks.find((brk) => !brk?.endBreak);
+  if (isAlreadyInABreak) {
+    throw new AppError(BAD_REQUEST, 'You are already in a break');
+  }
+
+  const result = await Attendance.findOneAndUpdate(
+    { _id },
+    {
+      $addToSet: {
+        breaks: payload,
+      },
+    },
+    {
+      new: true,
+    },
+  );
+  return result;
+};
+
+const endBreak = async (_id: string, payload: { endBreak: string }) => {
+  const attendance = await Attendance.findOne({ _id });
+  if (!attendance) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Attendance not found!!');
+  }
+
+  const isAlreadyInABreak = attendance.breaks.find((brk) => !brk?.endBreak);
+  if (!isAlreadyInABreak) {
+    throw new AppError(BAD_REQUEST, 'You are not in a break!');
+  }
+
+  const breaks = attendance.breaks.map((brk) => {
+    if (!brk?.endBreak) {
+      return {
+        startBreak: brk.startBreak,
+        endBreak: payload.endBreak,
+      };
+    } else {
+      return brk;
+    }
+  });
+
+  const result = await Attendance.findOneAndUpdate(
+    { _id },
+    { breaks: breaks },
+    {
+      new: true,
+    },
+  );
+  return result;
+};
+ */

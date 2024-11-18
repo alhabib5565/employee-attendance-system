@@ -14,6 +14,9 @@ import AdminHome from "@/components/pages/dashboard/admin/adminHome/AdminHome";
 import TodaysAttendance from "@/components/pages/dashboard/admin/adminHome/TodaysAttendance";
 import LeaveRequestForm from "@/components/pages/dashboard/employee/employeeLeave/LeaveRequestForm";
 import AllLeaveRequestOnAnEmployee from "@/components/pages/dashboard/employee/employeeLeave/AllLeaveRequestOnAnEmployee";
+import CreateTask from "@/components/pages/dashboard/employee/task/CreateTask";
+import AllTaskOfAnEmployee from "@/components/pages/dashboard/employee/task/AllTaskOfAnEmployee";
+import AllLeaveRequest from "@/components/pages/dashboard/admin/leaveRequest/AllLeaveRequest";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +52,10 @@ export const router = createBrowserRouter([
         element: <TodaysAttendance />,
       },
       {
+        path: "leave-management/all-leave-requests",
+        element: <AllLeaveRequest />,
+      },
+      {
         path: "attendance-management/attendance-sheet",
         element: <MonthlyAttendanceSheet />,
       },
@@ -77,6 +84,14 @@ export const router = createBrowserRouter([
       {
         path: "all-leave-request",
         element: <AllLeaveRequestOnAnEmployee />,
+      },
+      {
+        path: "create-task",
+        element: <CreateTask />,
+      },
+      {
+        path: "all-task",
+        element: <AllTaskOfAnEmployee />,
       },
     ],
   },
