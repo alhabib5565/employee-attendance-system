@@ -1,5 +1,5 @@
 import Attendance from "../attendance/Attendance";
-import CheckInCheckOutBox from "@/components/shared/CheckInCheckOutBox";
+import CheckInCheckOutBox from "@/components/shared/checkInCheckOut/CheckInCheckOutBox";
 
 const EmployeeHome = () => {
   return (

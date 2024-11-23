@@ -12,6 +12,15 @@ const attendanceApi = baseApi.injectEndpoints({
       invalidatesTags: [tags.Attendances],
     }),
 
+    checkOut: builder.mutation({
+      query: ({ data, id }) => ({
+        url: `/attendances/check-out/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: [tags.Attendances],
+    }),
+
     editAttendances: builder.mutation({
       query: ({ data, id }) => ({
         url: `/attendances/${id}`,
@@ -85,6 +94,7 @@ const attendanceApi = baseApi.injectEndpoints({
 
 export const {
   useCheckInMutation,
+  useCheckOutMutation,
   useEditAttendancesMutation,
   useGetAllAttendancesQuery,
   useGetSingleAttendancesQuery,

@@ -63,4 +63,9 @@ export const adminSidebarItems: TUserPath[] = [
       },
     ],
   },
+  {
+    label: "Profile",
+    href: "profile",
+    icon: User,
+  },
 ];

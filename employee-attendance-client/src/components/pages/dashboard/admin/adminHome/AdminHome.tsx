@@ -1,4 +1,4 @@
-import CheckInCheckOutBox from "@/components/shared/CheckInCheckOutBox";
+import CheckInCheckOutBox from "@/components/shared/checkInCheckOut/CheckInCheckOutBox";
 import TodaysAttendance from "./TodaysAttendance";
 
 const AdminHome = () => {

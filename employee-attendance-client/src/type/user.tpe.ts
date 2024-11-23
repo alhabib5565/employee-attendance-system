@@ -6,6 +6,8 @@ export type TEmployee = {
   designation: string;
   email: string;
   role: TUserRole;
+  phone?: string;
+  profileImage?: string;
   status: string;
   isDeleted: boolean;
   _id: string;

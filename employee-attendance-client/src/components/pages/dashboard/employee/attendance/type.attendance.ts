@@ -2,15 +2,17 @@ export type TBreak = {
   startBreak: Date;
   endBreak?: Date;
 };
+
+export type TDailyWorkSessions = {
+  checkInTime: Date;
+  checkOutTime?: Date;
+};
+
 export type TAttendance = {
-  _id: string;
   employeeId: string;
   checkInDate: Date;
-  checkInTime: string;
-  checkOutTime: string;
-  isAbsent: false;
+  dailyWorkSessions: TDailyWorkSessions[];
+  isAbsent: boolean;
   breaks: TBreak[];
-  createdAt: Date;
-  updatedAt: Date;
-  __v: 0;
+  leaveType: "Sick" | "Casual" | "Earned" | "Other";
 };

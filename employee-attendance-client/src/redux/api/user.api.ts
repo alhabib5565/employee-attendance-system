@@ -21,6 +21,15 @@ const userApi = baseApi.injectEndpoints({
       invalidatesTags: [tags.Users],
     }),
 
+    uploadProfilePhoto: builder.mutation({
+      query: ({ data, id }) => ({
+        url: `/employees/upload-profile-photo/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: [tags.Users],
+    }),
+
     getAllUsers: builder.query({
       query: () => ({
         url: "/employees",
@@ -30,7 +39,7 @@ const userApi = baseApi.injectEndpoints({
 
     getSingleUsers: builder.query({
       query: (id) => ({
-        url: `/users/${id}`,
+        url: `/employees/${id}`,
       }),
       providesTags: [tags.Users],
     }),
@@ -42,4 +51,5 @@ export const {
   useEditUsersMutation,
   useGetAllUsersQuery,
   useGetSingleUsersQuery,
+  useUploadProfilePhotoMutation,
 } = userApi;

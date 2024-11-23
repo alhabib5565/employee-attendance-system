@@ -67,7 +67,7 @@ const CreateUser = () => {
     console.log(res, "res");
     if (res.data) {
       toast.success(res.data?.message);
-      navigate("/admin-user");
+      navigate("/dashboard/admin/user-management/all-employees");
     } else if (res?.error) {
       toast.error(res.error?.message || "Something went wrong");
     }

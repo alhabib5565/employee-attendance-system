@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { useGetTodaysAttendanceQuery } from "@/redux/api/attendance.api";
 import { TEmployee } from "@/type/user.tpe";
-import { calculateWorkHours } from "@/utils/calculateWorkHours";
+import { totalWorkTimeString } from "@/utils/calculateWorkHours";
 import { TAttendance } from "../../employee/attendance/Attendance";
 import PageHeader from "@/components/shared/PageHeader";
 
@@ -35,10 +35,10 @@ const TodaysAttendance = () => {
             <TableHeader className="bg-secondary">
               <TableRow>
                 <TableHead className="text-primary">Name</TableHead>
-                <TableHead className="text-primary">Check In</TableHead>
+                {/* <TableHead className="text-primary">Check In</TableHead>
                 <TableHead className="text-primary font-medium">
                   Check Out
-                </TableHead>
+                </TableHead> */}
                 <TableHead className="text-primary font-medium">
                   Hours Worked
                 </TableHead>
@@ -56,30 +56,22 @@ const TodaysAttendance = () => {
                 <>
                   {data?.data?.map(
                     (attendance: TTodaysAttendance, index: number) => {
-                      console.log(attendance);
-                      const checkInTime =
-                        attendance?.attendanceRecords?.checkInTime;
-                      const checkOutTime =
-                        attendance?.attendanceRecords?.checkOutTime;
-                      const breaks = attendance.attendanceRecords?.breaks;
+                      const dailyWorkSessions =
+                        attendance?.attendanceRecords?.dailyWorkSessions;
                       return (
                         <TableRow key={index}>
                           <TableCell>{attendance.name}</TableCell>
 
-                          <TableCell>{checkInTime}</TableCell>
-                          <TableCell>{checkOutTime}</TableCell>
+                          {/* <TableCell>{checkInTime}</TableCell>
+                          <TableCell>{checkOutTime}</TableCell> */}
                           <TableCell>
-                            {checkInTime && checkOutTime
-                              ? calculateWorkHours(
-                                  checkInTime,
-                                  checkOutTime,
-                                  breaks
-                                )
+                            {dailyWorkSessions?.length > 0
+                              ? totalWorkTimeString(dailyWorkSessions)
                               : "00:00"}
                           </TableCell>
                           <TableCell>
                             <>
-                              {!checkInTime ? (
+                              {!attendance?.attendanceRecords?.checkInDate ? (
                                 <span className="px-3 rounded-[12px] py-0.5 bg-[#fd7e1426] text-[#fd7e14] text-sm font-medium flex items-center gap-2 w-fit">
                                   Absent
                                 </span>

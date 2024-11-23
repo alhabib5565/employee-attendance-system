@@ -1,34 +1,29 @@
+import { TDailyWorkSessions } from "@/components/pages/dashboard/employee/attendance/type.attendance";
 import { cn } from "@/lib/utils";
-import { useEditAttendancesMutation } from "@/redux/api/attendance.api";
+import { useCheckOutMutation } from "@/redux/api/attendance.api";
 import { LogOut } from "lucide-react";
 import { toast } from "sonner";
+import { checkActiveSession } from "./checkInCheckOut.utils";
 
 type TCheckOutBoxProps = {
   attendance_id: string;
-  checkOutTime?: string | undefined;
-  checkInTime: string | undefined;
+  dailyWorkSessions: TDailyWorkSessions[];
 };
 
 const CheckOutBox = ({
   attendance_id,
-  checkOutTime,
-  checkInTime,
+  dailyWorkSessions,
 }: TCheckOutBoxProps) => {
-  const [checkOut] = useEditAttendancesMutation();
+  const [checkOut] = useCheckOutMutation();
 
   const handleCheckOut = async () => {
     const toastId = toast.loading("Processing your check-out request...");
     try {
       const date = new Date();
-      const formattedTime = date.toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      });
 
       const res = await checkOut({
         id: attendance_id,
-        data: { checkOutTime: formattedTime },
+        data: { checkOutTime: date },
       }).unwrap();
       toast.success(res.message || "Check out successful!", {
         id: toastId,
@@ -45,18 +40,19 @@ const CheckOutBox = ({
     }
   };
 
+  const activeSession = checkActiveSession(dailyWorkSessions);
   return (
     <button
-      disabled={!!checkOutTime || !checkInTime}
+      disabled={!activeSession}
       onClick={handleCheckOut}
       className={cn(
         "h-[150px] w-[150px] rounded-md bg-[#FDEDD3] p-4 text-black space-y-3 text-left",
-        { "cursor-not-allowed bg-opacity-70": checkOutTime || !checkInTime }
+        { "cursor-not-allowed bg-opacity-70": !activeSession }
       )}
     >
       <LogOut className="size-10 " />
       <h2 className="text-xl font-bold ">
-        {checkOutTime ? checkOutTime : "00:00"}
+        {/* {checkOutTime ? checkOutTime : "00:00"} */}
       </h2>
       <p>Checked Out</p>
     </button>

@@ -21,8 +21,8 @@ const DashboardNav = () => {
   };
   const user = useAppSelector((state) => state.auth.user);
   return (
-    <div className="bg-white px-6 pt-6 pb-[10px] border-b flex justify-end items-center">
-      <div className=" flex justify-between items-center gap-4 ">
+    <div className="bg-white px-6 pt-6 pb-[10px] border-b flex justify-end items-center w-full sticky top-0 left-0 z-40">
+      <div className=" flex justify-between items-center gap-4">
         <div className="flex gap-2">
           <div className="h-[41px] flex-col justify-center items-end gap-0.5 inline-flex">
             <p className="text-[#343a40] text-sm font-normal leading-[21px] tracking-tight">

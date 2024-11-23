@@ -1,5 +1,11 @@
 import { TUserPath } from "@/type/paths.type";
-import { Edit, HandHelping, LayoutDashboard, Workflow } from "lucide-react";
+import {
+  Edit,
+  HandHelping,
+  LayoutDashboard,
+  User,
+  Workflow,
+} from "lucide-react";
 
 export const employeeSidebarItems: TUserPath[] = [
   {
@@ -47,5 +53,10 @@ export const employeeSidebarItems: TUserPath[] = [
         icon: Workflow,
       },
     ],
+  },
+  {
+    label: "Profile",
+    href: "profile",
+    icon: User,
   },
 ];

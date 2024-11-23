@@ -3,14 +3,21 @@ import { useCheckInMutation } from "@/redux/api/attendance.api";
 import { LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { TDailyWorkSessions } from "../../pages/dashboard/employee/attendance/type.attendance";
+import {
+  checkActiveSession,
+  formateCurrentTime,
+} from "./checkInCheckOut.utils";
 
 type TCheckInBoxProps = {
   employeeId: string;
-  checkInTime: string | undefined;
+  dailyWorkSessions: TDailyWorkSessions[];
 };
 
-const CheckInBox = ({ checkInTime, employeeId }: TCheckInBoxProps) => {
+const CheckInBox = ({ dailyWorkSessions }: TCheckInBoxProps) => {
   const [formattedTime, setFormattedTime] = useState("00:00");
+
+  const activeSession = checkActiveSession(dailyWorkSessions);
 
   //api call
   const [checkIn] = useCheckInMutation();
@@ -18,11 +25,7 @@ const CheckInBox = ({ checkInTime, employeeId }: TCheckInBoxProps) => {
   useEffect(() => {
     const updateTime = () => {
       const date = new Date();
-      const currentTime = date.toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      });
+      const currentTime = formateCurrentTime(date);
       setFormattedTime(currentTime);
     };
     updateTime();
@@ -34,16 +37,10 @@ const CheckInBox = ({ checkInTime, employeeId }: TCheckInBoxProps) => {
     const toastId = toast.loading("Processing your check-in request...");
     try {
       const date = new Date();
-      const formattedTime = date.toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      });
 
       const res = await checkIn({
         checkInDate: date,
-        employeeId,
-        checkInTime: formattedTime,
+        checkInTime: date,
       }).unwrap();
       toast.success(res.message || "Check In successful!", {
         id: toastId,
@@ -59,18 +56,20 @@ const CheckInBox = ({ checkInTime, employeeId }: TCheckInBoxProps) => {
 
   return (
     <button
-      disabled={!!checkInTime}
+      disabled={!!activeSession}
       onClick={handleCheckIn}
       className={cn(
         "h-[150px] w-[150px] rounded-md bg-[#83B398] p-4 text-white space-y-3 text-left",
-        { "cursor-not-allowed bg-opacity-80": checkInTime }
+        { "cursor-not-allowed bg-opacity-80": activeSession }
       )}
     >
       <LogOut className="size-10 " />
       <h2 className="text-xl font-bold ">
-        {checkInTime ? checkInTime : formattedTime}
+        {activeSession
+          ? formateCurrentTime(new Date(activeSession.checkInTime))
+          : formattedTime}
       </h2>
-      <p>{checkInTime ? "Checked IN" : "Not Checked IN"}</p>
+      <p>{activeSession ? "Checked IN" : "Not Checked IN"}</p>
     </button>
   );
 };
