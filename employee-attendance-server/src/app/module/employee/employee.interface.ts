@@ -10,6 +10,7 @@ export type TEmployee = {
   status: TEmployeeStatus;
   isDeleted: boolean;
   profileImage?: string;
+  passwordChangeAt?: Date;
   phone?: number;
 };
 

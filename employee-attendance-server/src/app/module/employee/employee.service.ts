@@ -4,6 +4,7 @@ import AppError from '../../error/AppError';
 import { TEmployee } from './employee.interface';
 import { Employee } from './employee.model';
 import { generateEmployeeId } from './employee.utils';
+import { sendFileToCloudinary } from '../../utils/sendFileToCloudinary';
 
 const createEmployee = async (payload: TEmployee) => {
   payload.employeeId = await generateEmployeeId();
@@ -45,9 +46,38 @@ const updateEmployee = async (_id: string, payload: Partial<TEmployee>) => {
   return result;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const uploadProfilePhoto = async (_id: string, file: any) => {
+  const employee = await Employee.findOne({ _id });
+  if (!employee) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Employee not found!!');
+  }
+
+  if (!file) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Profile image not found');
+  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const uploadedFileInfo: any = await sendFileToCloudinary({
+    fileName: file.originalname,
+    fileBuffer: file.buffer,
+    resource_type: 'image',
+  });
+  const profileImage = uploadedFileInfo?.secure_url;
+
+  const result = await Employee.findOneAndUpdate(
+    { _id },
+    { profileImage },
+    {
+      new: true,
+    },
+  );
+  return result;
+};
+
 export const EmployeeService = {
   createEmployee,
   getAllEmployee,
   getSingleEmployee,
   updateEmployee,
+  uploadProfilePhoto,
 };

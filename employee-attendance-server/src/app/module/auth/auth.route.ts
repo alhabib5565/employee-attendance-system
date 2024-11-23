@@ -19,6 +19,8 @@ router.post(
   AuthController.loginEmployee,
 );
 
+router.post('/change-password', auth(), AuthController.changePassword);
+
 router.post('/refresh-toekn', auth(), AuthController.refreshToken);
 
 export const authRouter = router;

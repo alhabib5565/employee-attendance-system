@@ -7,6 +7,7 @@ import { TLoginEmployee } from './auth.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
 import { createToken, verifyToken } from './auth.utils';
+import { JwtPayload } from 'jsonwebtoken';
 
 const registerEmployee = async (payload: TEmployee) => {
   payload.employeeId = await generateEmployeeId();
@@ -65,6 +66,57 @@ const loginEmployee = async (payload: TLoginEmployee) => {
   };
 };
 
+const changePassword = async (
+  employeeData: JwtPayload,
+  payload: {
+    oldPassword: string;
+    newPassword: string;
+  },
+) => {
+  const employee = await Employee.findOne({
+    email: employeeData.email,
+    role: employeeData.role,
+  }).select('+password');
+
+  if (!employee) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Employee not found');
+  }
+
+  const isPasswordMatched = await bcrypt.compare(
+    payload.oldPassword,
+    employee?.password,
+  );
+
+  if (!isPasswordMatched) {
+    throw new AppError(httpStatus.UNAUTHORIZED, 'Password does not mathched');
+  }
+
+  if (payload.oldPassword === payload.newPassword) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'Current password and new password are same',
+    );
+  }
+
+  const newHashedPassword = await bcrypt.hash(
+    payload.newPassword,
+    Number(config.bcrypt_salt_rounds),
+  );
+
+  const result = await Employee.findOneAndUpdate(
+    { email: employee.email },
+    {
+      password: newHashedPassword,
+      passwordChangeAt: new Date(),
+    },
+
+    {
+      new: true,
+    },
+  );
+  return result;
+};
+
 const refreshToken = async (token: string) => {
   if (!token) {
     throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized!');
@@ -110,4 +162,5 @@ export const AuthService = {
   registerEmployee,
   loginEmployee,
   refreshToken,
+  changePassword,
 };

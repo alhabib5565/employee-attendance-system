@@ -45,9 +45,23 @@ const updateEmployee = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const uploadProfilePhoto = catchAsync(async (req: Request, res: Response) => {
+  const result = await EmployeeService.uploadProfilePhoto(
+    req.params.id,
+    req?.file,
+  );
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Profile photo upload successfull',
+    data: result,
+  });
+});
+
 export const EmployeeController = {
   createEmployee,
   getAllEmployee,
   getSingleEmployee,
   updateEmployee,
+  uploadProfilePhoto,
 };

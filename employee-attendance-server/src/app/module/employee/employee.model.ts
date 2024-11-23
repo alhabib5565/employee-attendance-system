@@ -28,6 +28,7 @@ const employeeSchema = new Schema<TEmployee>(
     isDeleted: { type: Boolean, default: false },
     phone: { type: Number },
     profileImage: { type: String },
+    passwordChangeAt: { type: Date },
   },
   { timestamps: true },
 );
