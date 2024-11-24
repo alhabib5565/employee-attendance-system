@@ -12,6 +12,8 @@ export type TEmployee = {
   profileImage?: string;
   passwordChangeAt?: Date;
   phone?: number;
+  leave_quota: number;
+  leave_taken: number;
 };
 
 export type TEmployeeStatus = keyof typeof USER_STATUS;

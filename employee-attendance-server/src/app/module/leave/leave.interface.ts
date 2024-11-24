@@ -7,4 +7,5 @@ export type TLeave = {
   startDate: Date;
   endDate: Date;
   status: 'Pending' | 'Approved' | 'Rejected';
+  leaveDuration: number;
 };

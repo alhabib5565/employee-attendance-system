@@ -27,6 +27,10 @@ const leaveSchema = new Schema<TLeave>({
     enum: ['Pending', 'Approved', 'Rejected'],
     default: 'Pending',
   },
+  leaveDuration: {
+    type: Number,
+    default: 0,
+  },
 });
 
 export const Leave = model('Leave', leaveSchema);

@@ -29,6 +29,8 @@ const employeeSchema = new Schema<TEmployee>(
     phone: { type: Number },
     profileImage: { type: String },
     passwordChangeAt: { type: Date },
+    leave_quota: { type: Number, default: 20 },
+    leave_taken: { type: Number, default: 0 },
   },
   { timestamps: true },
 );
