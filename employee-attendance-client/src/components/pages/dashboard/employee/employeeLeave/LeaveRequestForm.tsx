@@ -53,7 +53,6 @@ const LeaveRequestForm = () => {
           defaultValues={leaveFormDefaultValue}
         >
           <div className="grid grid-cols-1 gap-4">
-            <MyTextarea label="Description" name="description" rows={4} />
             <MySelect
               label="Leave Type"
               name="leaveType"
@@ -74,6 +73,7 @@ const LeaveRequestForm = () => {
               <MyDatePicker name="startDate" label="Start Date" />
               <MyDatePicker name="endDate" label="End Date" />
             </div>
+            <MyTextarea label="Description" name="description" rows={4} />
             <div className="flex justify-end">
               <Button type="submit">Submit</Button>
             </div>

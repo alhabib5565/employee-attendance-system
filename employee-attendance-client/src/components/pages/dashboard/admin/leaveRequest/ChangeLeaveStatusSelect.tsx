@@ -39,7 +39,7 @@ const ChangeLeaveStatusSelect = ({ leave }: { leave: TLeave }) => {
       }
       value={leave.status}
       //   leave.status === "Approved"
-      disabled={editLeaveLoading}
+      disabled={editLeaveLoading || leave.status === "Approved"}
     >
       <SelectTrigger className="w-[120px]">
         <SelectValue />

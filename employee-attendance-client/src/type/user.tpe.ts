@@ -13,6 +13,8 @@ export type TEmployee = {
   _id: string;
   updatedAt: string;
   createdAt: string;
+  leave_quota: number;
+  leave_taken: number;
 };
 
 export type TUserRole = keyof typeof USER_ROLE;

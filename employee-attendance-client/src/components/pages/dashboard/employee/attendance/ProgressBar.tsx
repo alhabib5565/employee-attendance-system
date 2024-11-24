@@ -17,7 +17,7 @@ type TProgressBar = { dailyWorkSessions: TDailyWorkSessions[] };
 const ProgressBar = ({ dailyWorkSessions }: TProgressBar) => {
   const totalWorkTime = calculateTotalWorkTimes(dailyWorkSessions);
   return (
-    <div className="relative w-full h-2 flex gap-1">
+    <div className="relative w-full h-2 flex gap-1 max-w-[600px] mx-auto">
       {dailyWorkSessions.map((session, index) => {
         if (!session.checkOutTime)
           return (

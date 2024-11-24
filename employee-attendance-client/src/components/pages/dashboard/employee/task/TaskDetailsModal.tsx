@@ -17,19 +17,9 @@ import {
 } from "@/components/ui/table";
 import { TTask, TWorkSession } from "./type.task";
 import { calculateTotalWorkSessionTime } from "./task.utils";
+import { formateDateWithHrAndMM } from "@/utils/common";
 
 const TaskDetailsModal = ({ task }: { task: TTask }) => {
-  const formateTime = (date: Date | undefined) => {
-    return new Date(date || "")?.toLocaleString("en-GB", {
-      day: "numeric",
-      month: "2-digit",
-      year: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
-
   const getTotalTimeAtAWorkSession = (workSession: TWorkSession) => {
     const startTime = new Date(workSession.startTime || "").getTime();
     const endTime = new Date(workSession.endTime || "").getTime() || startTime;
@@ -86,11 +76,11 @@ const TaskDetailsModal = ({ task }: { task: TTask }) => {
                           <TableRow key={index}>
                             <TableCell>{index + 1}</TableCell>
                             <TableCell>
-                              {formateTime(session.startTime)}
+                              {formateDateWithHrAndMM(session?.startTime)}
                             </TableCell>
                             <TableCell>
                               {session.endTime
-                                ? formateTime(session.startTime)
+                                ? formateDateWithHrAndMM(session?.endTime)
                                 : "Working..."}
                             </TableCell>
 

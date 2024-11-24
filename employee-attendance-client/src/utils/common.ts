@@ -1,5 +1,5 @@
-export const formateDateWithHrAndMM = (dateStr: string) => {
-  const targetDate = new Date(dateStr);
+export const formateDateWithHrAndMM = (dateStr: string | undefined) => {
+  const targetDate = new Date(dateStr || "");
 
   // Format the date to "YYYY-MM-DD hh:mm AM/PM"
   const options: Intl.DateTimeFormatOptions = {

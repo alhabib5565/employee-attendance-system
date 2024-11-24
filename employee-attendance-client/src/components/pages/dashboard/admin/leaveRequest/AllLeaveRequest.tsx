@@ -22,6 +22,8 @@ import {
 import MyPagination from "@/components/myUi/MyPagination";
 import { TLeave } from "../../employee/employeeLeave/type.leaveRequest";
 import ChangeLeaveStatusSelect from "./ChangeLeaveStatusSelect";
+import { formateDateWithHrAndMM } from "@/utils/common";
+import LeaveDetailsModal from "./LeaveDetailsModal";
 
 const AllLeaveRequest = () => {
   const { data, isLoading } = useGetAllLeaveRequestQuery({});
@@ -47,20 +49,24 @@ const AllLeaveRequest = () => {
               <TableRow>
                 <TableHead className="w-[100px]">#</TableHead>
                 <TableHead className="text-primary"> Name</TableHead>
+
                 <TableHead className="text-primary font-medium">
-                  Start Date
-                </TableHead>
-                <TableHead className="text-primary font-medium">
-                  End Date
-                </TableHead>
-                <TableHead className="text-primary font-medium">
-                  Total Days
+                  Duration
                 </TableHead>
 
                 <TableHead className="text-primary font-medium">
-                  Status
+                  Remaining Leave
+                </TableHead>
+                <TableHead className="text-primary font-medium">
+                  Creation Date
                 </TableHead>
                 <TableHead className="text-primary font-medium">Type</TableHead>
+                <TableHead className="text-primary font-medium">
+                  Status
+                </TableHead>
+                <TableHead className="text-primary font-medium">
+                  Action
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -68,16 +74,23 @@ const AllLeaveRequest = () => {
                 <TableRow key={index}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{leave.employeeId.name}</TableCell>
-                  <TableCell>{leave.startDate.slice(0, 10)}</TableCell>
-                  <TableCell>{leave.endDate.slice(0, 10)}</TableCell>
+
+                  <TableCell>{leave.leaveDuration} Days</TableCell>
                   <TableCell>
-                    {new Date(leave.endDate).getDate() -
-                      new Date(leave.startDate).getDate()}
+                    {leave?.employeeId?.leave_quota -
+                      leave?.employeeId?.leave_taken}{" "}
+                    Days
                   </TableCell>
+                  <TableCell>
+                    {formateDateWithHrAndMM(leave.createdAt)}
+                  </TableCell>
+                  <TableCell>{leave.leaveType}</TableCell>
                   <TableCell>
                     <ChangeLeaveStatusSelect leave={leave} />
                   </TableCell>
-                  <TableCell>{leave.leaveType}</TableCell>
+                  <TableCell>
+                    <LeaveDetailsModal leave={leave} />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

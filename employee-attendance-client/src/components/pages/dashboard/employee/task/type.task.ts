@@ -1,8 +1,8 @@
 import { TEmployee } from "@/type/user.tpe";
 
 export type TWorkSession = {
-  startTime?: Date;
-  endTime?: Date;
+  startTime?: string;
+  endTime?: string;
 };
 
 export type TTask = {

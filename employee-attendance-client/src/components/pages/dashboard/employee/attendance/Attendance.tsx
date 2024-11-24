@@ -74,7 +74,7 @@ const Attendance = () => {
               </div>
 
               {dailyWorkSessionsLength > 0 && (
-                <>
+                <div className="w-[120px]">
                   {dailyWorkSessions[dailyWorkSessionsLength - 1]
                     ?.checkOutTime ? (
                     <div>
@@ -91,9 +91,9 @@ const Attendance = () => {
                       </h3>
                     </div>
                   ) : (
-                    <p>Incomplete</p>
+                    <p>Incomplete </p>
                   )}
-                </>
+                </div>
               )}
 
               {dailyWorkSessionsLength > 0
@@ -111,7 +111,7 @@ export default Attendance;
 
 const AbsentDividerWithLable = () => {
   return (
-    <div className="relative flex items-center">
+    <div className="relative flex items-center max-w-[600px] mx-auto">
       <div className="flex-grow border-t-4 border-[#fd7e1426]"></div>
       <span className="px-3 rounded-[12px] py-0.5 bg-[#fd7e1426] text-[#fd7e14] text-sm font-medium flex items-center gap-2 w-fit">
         Absent
@@ -122,7 +122,7 @@ const AbsentDividerWithLable = () => {
 };
 const HolydayDividerWithLable = () => {
   return (
-    <div className="relative flex items-center">
+    <div className="relative flex items-center max-w-[600px] mx-auto">
       <div className="flex-grow border-t-4 border-red-200"></div>
       <span className="px-3 rounded-[12px] py-0.5 bg-red-600 bg-opacity-15 text-red-600 text-sm font-medium flex items-center gap-2 w-fit">
         Holyday

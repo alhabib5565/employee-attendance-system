@@ -47,8 +47,8 @@ const CreateTask = () => {
           defaultValues={taskFormDefaultValue}
         >
           <div className="grid grid-cols-1 gap-4">
-            <MyTextarea label="Description" name="description" rows={4} />
             <MyInput name="title" type="text" label="Task Title" />
+            <MyTextarea label="Description" name="description" rows={4} />
             <div className="flex justify-end">
               <Button type="submit">Submit</Button>
             </div>
