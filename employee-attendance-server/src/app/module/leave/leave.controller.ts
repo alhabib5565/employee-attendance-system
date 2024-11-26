@@ -45,9 +45,24 @@ const updateLeave = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const leaveStatusUpdate = catchAsync(async (req: Request, res: Response) => {
+  const result = await LeaveService.leaveStatusUpdate(
+    req.params.id,
+    req.employee.employee_id,
+    req.body,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: `Leave status update successfully.`,
+    data: result,
+  });
+});
+
 export const LeaveController = {
   requestForLeave,
   getAllLeave,
   getSingleLeave,
   updateLeave,
+  leaveStatusUpdate,
 };

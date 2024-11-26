@@ -4,6 +4,7 @@ import { authRouter } from '../module/auth/auth.route';
 import { attendanceRouter } from '../module/attendance/attendance.route';
 import { leaveRouter } from '../module/leave/leave.route';
 import { taskRouter } from '../module/task/task.route';
+import { notificationRouter } from '../module/notification/notification.route';
 
 const router = express.Router();
 
@@ -27,6 +28,10 @@ const appRoutes = [
   {
     path: '/tasks',
     routes: taskRouter,
+  },
+  {
+    path: '/notifications',
+    routes: notificationRouter,
   },
 ];
 

@@ -13,5 +13,10 @@ router.post(
 router.get('/', LeaveController.getAllLeave);
 router.get('/:id', LeaveController.getSingleLeave);
 router.patch('/:id', LeaveController.updateLeave);
+router.patch(
+  '/:id/update-leave-status',
+  auth(USER_ROLE.Admin),
+  LeaveController.leaveStatusUpdate,
+);
 
 export const leaveRouter = router;

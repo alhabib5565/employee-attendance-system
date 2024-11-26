@@ -5,7 +5,10 @@ import { TLeave } from './leave.interface';
 import { Leave } from './leave.model';
 import dayjs from 'dayjs';
 import { Employee } from '../employee/employee.model';
-import { startSession } from 'mongoose';
+import { startSession, Types } from 'mongoose';
+import { USER_ROLE } from '../employee/employee.constant';
+import { Notification } from '../notification/notification.model';
+import { TNotification } from '../notification/notification.interface';
 
 const requestForLeave = async (payload: TLeave) => {
   const leaveStart = dayjs(payload.startDate);
@@ -15,8 +18,20 @@ const requestForLeave = async (payload: TLeave) => {
   if (!employee) {
     throw new AppError(httpStatus.NOT_FOUND, 'Employee not found!');
   }
+
+  const admins = await Employee.find({ role: USER_ROLE.Admin }, { _id: 1 });
+  const adminIds = admins.map((admin) => admin._id);
+
   const remainingLeave = employee?.leave_quota - employee?.leave_taken;
   const leaveDuration = leaveEnd.diff(leaveStart, 'days');
+
+  if (leaveDuration <= 0) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'Leave duration must be at least 1 day.',
+    );
+  }
+
   if (remainingLeave < leaveDuration) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
@@ -24,11 +39,42 @@ const requestForLeave = async (payload: TLeave) => {
     );
   }
 
-  payload.leaveDuration = leaveDuration;
-  const result = await Leave.create(payload);
-  return result;
-};
+  const session = await startSession();
 
+  try {
+    session.startTransaction();
+    //create leave
+    payload.leaveDuration = leaveDuration;
+    const result = await Leave.create([payload], { session });
+
+    const notificationData: TNotification = {
+      recipientIds: adminIds,
+      createdBy: employee._id,
+      readBy: [],
+      message: `New leave request submitted by Employee Name: ${employee.name}`,
+      title: 'Leave Request Submitted',
+      path: 'test',
+    };
+
+    // create notification
+    await Notification.create([notificationData], { session });
+    await session.commitTransaction();
+    await session.endSession();
+
+    return result;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    await session.abortTransaction(); // for rollback the operations
+    await session.endSession();
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      error.message ||
+        'Something went wrong while processing your leave request.',
+    );
+  } finally {
+    await session.endSession();
+  }
+};
 const getAllLeave = async (query: Record<string, unknown>) => {
   const searchAbleFields = ['name', 'email'];
   const employeeQuery = new QueryBuilder(
@@ -55,6 +101,7 @@ const getSingleLeave = async (_id: string) => {
 };
 
 const updateLeave = async (_id: string, payload: Partial<TLeave>) => {
+  delete payload.status;
   const leave = await Leave.findOne({ _id });
   if (!leave) {
     throw new AppError(httpStatus.NOT_FOUND, 'Leave request not found!!');
@@ -65,6 +112,35 @@ const updateLeave = async (_id: string, payload: Partial<TLeave>) => {
       httpStatus.BAD_GATEWAY,
       'Your leave request already approved',
     );
+  }
+
+  const result = await Leave.findOneAndUpdate({ _id }, payload, {
+    new: true,
+  });
+
+  return result;
+};
+
+const leaveStatusUpdate = async (
+  _id: string,
+  createdById: Types.ObjectId,
+  payload: { status: 'Pending' | 'Approved' | 'Rejected' },
+) => {
+  const leave = await Leave.findOne({ _id });
+  if (!leave) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Leave request not found!!');
+  }
+
+  if (leave.status === 'Approved') {
+    throw new AppError(
+      httpStatus.BAD_GATEWAY,
+      'Your leave request already approved',
+    );
+  }
+
+  const validStatuses = ['Pending', 'Approved', 'Rejected'];
+  if (!validStatuses.includes(payload.status)) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Invalid status value');
   }
 
   const session = await startSession();
@@ -79,8 +155,31 @@ const updateLeave = async (_id: string, payload: Partial<TLeave>) => {
       );
     }
 
+    const notificationData: TNotification = {
+      recipientIds: [leave.employeeId],
+      createdBy: createdById,
+      readBy: [],
+      message: `Your leave request has been updated to ${payload.status}`,
+      title: 'Leave Status Update',
+      path: 'test',
+    };
+
+    // create notification
+    await Notification.create([notificationData], { session });
+
+    const result = await Leave.findOneAndUpdate(
+      { _id },
+      { status: payload.status },
+      {
+        new: true,
+        session,
+      },
+    );
     await session.commitTransaction();
     await session.endSession();
+
+    return result;
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     await session.abortTransaction(); // for rollback the operations
@@ -90,11 +189,6 @@ const updateLeave = async (_id: string, payload: Partial<TLeave>) => {
       error.message || 'Something is wrong',
     );
   }
-
-  const result = await Leave.findOneAndUpdate({ _id }, payload, {
-    new: true,
-  });
-  return result;
 };
 
 export const LeaveService = {
@@ -102,4 +196,5 @@ export const LeaveService = {
   updateLeave,
   getAllLeave,
   getSingleLeave,
+  leaveStatusUpdate,
 };
